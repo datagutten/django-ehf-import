@@ -1,0 +1,53 @@
+{% extends 'ehf_invoice/base.html' %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Leverand&oslash;r</th>
+            <td>{{ invoice.supplier }}</td>
+        </tr>
+        <tr>
+            <th>Fakturanummer</th>
+            <td>{{ invoice.invoice_number }}</td>
+        </tr>
+        <tr>
+            <th>Ordrenummer</th>
+            <td>{{ invoice.order_number }}</td>
+        </tr>
+        <tr>
+            <th>Dato</th>
+            <td>{{ invoice.date }}</td>
+        </tr>
+        <tr>
+            <th>Bel&oslash;p</th>
+            <td>{{ invoice.amount }}</td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>Vare</th>
+            <th>Beløp</th>
+            <th>Antall</th>
+            <th>Sum</th>
+        </tr>
+        {% for line in invoice.lines.all %}
+            <tr>
+                <td>{{ line.name }}</td>
+                <td>{{ line.price }}</td>
+                <td>{{ line.quantity }}</td>
+                <td>{{ line.sum }}</td>
+            </tr>
+            {% if line.serials.all %}
+                <tr>
+                    <td colspan="4">
+                        {% for serial in line.serials.all %}
+                            {{ serial }}<br />
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+{% endblock %}
