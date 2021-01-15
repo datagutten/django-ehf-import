@@ -10,20 +10,25 @@ class InvoiceLine:
     def __init__(self, line):
         self.line = line
 
+    @property
     def id(self):
         return self.line.find('cbc:ID', self.namespaces).text
 
+    @property
     def quantity(self):
         q = self.line.find('cbc:InvoicedQuantity', self.namespaces).text
         # q = q[:-3]
         return int(float(q))
 
+    @property
     def description(self):
         return self.line.find('cac:Item/cbc:Description', self.namespaces).text
 
+    @property
     def name(self):
         return self.line.find('cac:Item/cbc:Name', self.namespaces).text
 
+    @property
     def serials(self):
         properties = self.line.findall(
             'cac:Item/cac:AdditionalItemProperty/'
@@ -35,6 +40,7 @@ class InvoiceLine:
             serials.append(serial.text)
         return serials
 
+    @property
     def price(self):
         """
         Price of one item
@@ -44,6 +50,7 @@ class InvoiceLine:
             self.line.find('cac:Price/cbc:PriceAmount', self.namespaces).text
         )
 
+    @property
     def sum(self):
         """
         Sum of the line

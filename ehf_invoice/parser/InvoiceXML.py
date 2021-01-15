@@ -27,12 +27,20 @@ class InvoiceXML:
         """
         return self.invoice.find(match, self.namespaces)
 
+    @property
     def invoice_number(self):
         return self.find('cbc:ID').text
 
+    @property
     def invoice_date(self):
         return self.find('cbc:IssueDate').text
 
+    @property
+    def customer(self):
+        customer = self.find('cac:AccountingCustomerParty/cac:Party')
+        return Party(customer)
+
+    @property
     def supplier(self):
         return self.find('cac:AccountingSupplierParty/cac:Party')
 
@@ -43,17 +51,19 @@ class InvoiceXML:
             .text
         )
 
+    @property
     def order_reference(self):
         reference = self.find('cac:OrderReference/cbc:ID')
         if reference:
             return reference
 
+    @property
     def order_number(self):
         objects = self.invoice.findall(
             'cac:ContractDocumentReference/cbc:ID', self.namespaces
         )
         references = []
-        reference1 = self.order_reference()
+        reference1 = self.order_reference
         for reference in objects:
             if not reference.text == reference1:
                 return reference.text
