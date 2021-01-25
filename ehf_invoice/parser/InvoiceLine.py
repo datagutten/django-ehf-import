@@ -25,7 +25,9 @@ class InvoiceLine:
 
     @property
     def description(self):
-        return self.line.find('cac:Item/cbc:Description', self.namespaces).text
+        desc = self.line.find('cac:Item/cbc:Description', self.namespaces)
+        if desc:
+            return desc.text
 
     @property
     def name(self):
