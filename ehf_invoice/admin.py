@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ehf_invoice.models import Invoice, InvoiceLine, SerialNumber
+from ehf_invoice.models import Invoice, InvoiceLine, SerialNumber, Attachment
 
 
 @admin.register(Invoice)
@@ -19,3 +19,8 @@ class InvoiceLineAdmin(admin.ModelAdmin):
 class SerialNumberAdmin(admin.ModelAdmin):
     list_display = ['line', 'serial']
     list_filter = ['line__invoice']
+
+
+@admin.register(Attachment)
+class AttachmentAdmin(admin.ModelAdmin):
+    list_display = ['invoice', 'file']
