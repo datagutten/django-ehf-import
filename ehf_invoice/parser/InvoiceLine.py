@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+
 class InvoiceLine:
     line = None
     namespaces = {
@@ -46,7 +49,7 @@ class InvoiceLine:
         Price of one item
         :return:
         """
-        return float(
+        return Decimal(
             self.line.find('cac:Price/cbc:PriceAmount', self.namespaces).text
         )
 
@@ -56,6 +59,6 @@ class InvoiceLine:
         Sum of the line
         :return:
         """
-        return float(
+        return Decimal(
             self.line.find('cbc:LineExtensionAmount', self.namespaces).text
         )
