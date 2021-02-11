@@ -8,16 +8,9 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-if not os.path.exists('ehf_invoice/VERSION'):
-    version = '0'
-else:
-    with open('ehf_invoice/VERSION', 'r') as fp:
-        version = fp.read().strip()
-        version = version[1:]  # Remove v before version number
-
 setup(
     name='django-ehf-import',
-    version=version,
+    version='@@version@@',
     packages=find_packages(),
     include_package_data=True,
     license='GPL',

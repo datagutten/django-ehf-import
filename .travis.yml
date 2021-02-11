@@ -1,0 +1,25 @@
+language: python
+matrix:
+  include:
+  - python: '3.7'
+  - python: '3.8'
+  - python: '3.9'
+install:
+- pip install coverage
+- python setup.py install
+#script:
+#- python runtests.py
+before_deploy:
+- git stash --all
+- sed -i "s/@@version@@/${TRAVIS_TAG}/g" setup.py
+deploy:
+  skip_cleanup: true
+  provider: pypi
+  user: __token__
+  password:
+    secure: c6ghmqwmF5/Lf6WJyBDb/mGxlukVDW5+r9tGN0aAaGa770qctFCd/Sy8CE/u0HBPiex5EXieTw4IXpgkm3ls23CjCk5D3XRqxsTXMewKVZhX3iQXuGEeNQi2lZQdqr8QhyxG8Aqdf8M9tWo3LCxoIg31ScuHy7Lxqceaf0Aa4G5YuycAgCnquXCvpkzFoTYIlh9+Yb4qoIa4Y2z3rJk8FLh1SFLkicwqLMsBk/BLBAYwzTPgy5V1VY2Tm4icqn5FoSWstUQMRiKbxisHEfhRzJYuyZ2D6xFuC8uGKqp9Gjte+Bm9VEYqvwoL3tKLjxs0e/XodxeT7lbjXWJqv2BDfPTlfxxDvXROpgyjO33tMG1oMln5x0V+GYip/X6eXtl/MY/nx3nCx8ViUKWKPQ4lu+0Ns/wjK5OvovHYrJM469It90G40nq34zRqYtqy7e0mkPyUfpegC9M2kZL1LDghgdJEFFFNf2SUjpkcams25y/c2u3uydPUjPH+bW78fZIjVgRJz/sgwzqzGBWttTm2ShKXrMBKjc4cWwlwNf2LIgMiGICA3fJQTwxrd7QHruoMUSoF4KEyWk9WcuL2vdk0+ZAnsxxn9fb5oBPISOMdeNhdk0e036wt8RYsiUpdMNQgjsbOf8m9GhcReosdYKT3k5HdPM8AMrQh/YOC2T4WrT8=
+  on:
+    python: '3.8'
+    tags: true
+after_script:
+- bash <(curl -s https://codecov.io/bash)
