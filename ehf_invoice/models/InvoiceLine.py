@@ -9,8 +9,8 @@ class InvoiceLine(models.Model):
     )
     line_id = models.IntegerField()
 
-    description = models.CharField(max_length=100, null=True, blank=True)
-    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=300, null=True, blank=True)
+    name = models.CharField(max_length=300)
     price = models.DecimalField(decimal_places=2, max_digits=12)
     quantity = models.IntegerField()
     sum = models.DecimalField(decimal_places=2, max_digits=12)
