@@ -1,14 +1,18 @@
+from base64 import b64decode
+from decimal import Decimal
 from xml.etree import ElementTree
 
+from ehf_invoice.parser import Attachment
 from ehf_invoice.parser.InvoiceLine import InvoiceLine
+from ehf_invoice.parser.Party import Party
 
 
 class InvoiceXML:
     namespaces = {
         'cac': 'urn:oasis:names:specification:'
-        'ubl:schema:xsd:CommonAggregateComponents-2',
+               'ubl:schema:xsd:CommonAggregateComponents-2',
         'cbc': 'urn:oasis:names:specification:'
-        'ubl:schema:xsd:CommonBasicComponents-2',
+               'ubl:schema:xsd:CommonBasicComponents-2',
     }
 
     invoice = None
@@ -42,14 +46,16 @@ class InvoiceXML:
 
     @property
     def supplier(self):
-        return self.find('cac:AccountingSupplierParty/cac:Party')
+        supplier = self.find('cac:AccountingSupplierParty/cac:Party')
+        return Party(supplier)
 
-    def supplier_name(self):
-        return (
-            self.supplier()
-            .find('cac:PartyName/cbc:Name', self.namespaces)
-            .text
-        )
+    # @property
+    # def supplier_name(self):
+    #     return (
+    #         self.supplier
+    #             .find('cac:PartyName/cbc:Name', self.namespaces)
+    #             .text
+    #     )
 
     @property
     def order_reference(self):
@@ -70,8 +76,16 @@ class InvoiceXML:
             # references.append(reference.text)
         # return references
 
+    def attachments(self):
+        objects = self.invoice.findall('cac:AdditionalDocumentReference/cac:Attachment', self.namespaces)
+        attachments = []
+        for att in objects:
+            attachments.append(Attachment(att))
+        return attachments
+
+    @property
     def amount(self):
-        return float(
+        return Decimal(
             self.find('cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount').text
         )
 
