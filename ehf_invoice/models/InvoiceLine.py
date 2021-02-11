@@ -17,6 +17,8 @@ class InvoiceLine(models.Model):
 
     class Meta:
         unique_together = ['invoice', 'line_id']
+        verbose_name = 'fakturalinje'
+        verbose_name_plural = 'fakturalinjer'
 
     def __str__(self):
         return '%s line %s %s' % (self.invoice, self.line_id, self.name)

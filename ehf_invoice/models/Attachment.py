@@ -12,3 +12,5 @@ class Attachment(models.Model):
 
     class Meta:
         unique_together = ['invoice', 'file']
+        verbose_name = 'vedlegg'
+        verbose_name_plural = 'vedlegg'

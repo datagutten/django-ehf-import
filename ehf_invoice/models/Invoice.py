@@ -17,6 +17,9 @@ class Invoice(models.Model):
 
     class Meta:
         unique_together = ['supplier', 'invoice_number']
+        verbose_name = 'faktura'
+        verbose_name_plural = 'fakturaer'
+        ordering = ['-date']
 
     def __str__(self):
         return '%s invoice %s' % (self.supplier, self.invoice_number)

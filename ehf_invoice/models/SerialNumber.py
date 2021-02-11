@@ -11,6 +11,8 @@ class SerialNumber(models.Model):
 
     class Meta:
         unique_together = ['line', 'serial']
+        verbose_name = 'serienummer'
+        verbose_name_plural = 'serienummer'
 
     def __str__(self):
         return self.serial
