@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import UniqueConstraint
 
 from . import Invoice
 
@@ -17,11 +16,7 @@ class InvoiceLine(models.Model):
     sum = models.DecimalField(decimal_places=2, max_digits=12)
 
     class Meta:
-        constraints = [
-            UniqueConstraint(
-                fields=['invoice', 'line_id'], name='unique_invoice_line_id'
-            )
-        ]
+        unique_together = ['invoice', 'line_id']
 
     def __str__(self):
         return '%s line %s %s' % (self.invoice, self.line_id, self.name)

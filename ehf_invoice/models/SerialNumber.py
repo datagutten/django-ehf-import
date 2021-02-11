@@ -9,5 +9,8 @@ class SerialNumber(models.Model):
     )
     serial = models.CharField(primary_key=True, max_length=50)
 
+    class Meta:
+        unique_together = ['line', 'serial']
+
     def __str__(self):
         return self.serial
