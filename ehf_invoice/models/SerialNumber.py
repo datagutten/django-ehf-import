@@ -5,9 +5,11 @@ from . import InvoiceLine
 
 class SerialNumber(models.Model):
     line = models.ForeignKey(
-        InvoiceLine, on_delete=models.CASCADE, related_name='serials'
+        InvoiceLine, on_delete=models.CASCADE, related_name='serials',
+        verbose_name='fakturalinje'
     )
-    serial = models.CharField(primary_key=True, max_length=50)
+    serial = models.CharField(primary_key=True, max_length=50,
+                              verbose_name='serienummer')
 
     class Meta:
         unique_together = ['line', 'serial']
