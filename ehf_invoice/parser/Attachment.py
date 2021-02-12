@@ -14,6 +14,8 @@ class Attachment:
 
         file = element.find('cbc:EmbeddedDocumentBinaryObject',
                             self.namespaces)
+        if not file:
+            raise ValueError('No file in attachment')
 
         self.file_name = file.attrib['filename']
         self.mime = file.attrib['mimeCode']

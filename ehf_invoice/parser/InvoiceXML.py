@@ -80,7 +80,10 @@ class InvoiceXML:
         objects = self.invoice.findall('cac:AdditionalDocumentReference/cac:Attachment', self.namespaces)
         attachments = []
         for att in objects:
-            attachments.append(Attachment(att))
+            try:
+                attachments.append(Attachment(att))
+            except ValueError:
+                continue
         return attachments
 
     @property
