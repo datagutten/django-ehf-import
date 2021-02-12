@@ -1,6 +1,7 @@
 {% extends 'ehf_invoice/base.html' %}
 
 {% block content %}
+    <h1>{{ invoice.supplier }} faktura {{ invoice.invoice_number }}</h1>
     <table>
         <tr>
             <th>Leverand&oslash;r</th>
@@ -12,7 +13,7 @@
         </tr>
         <tr>
             <th>Ordrenummer</th>
-            <td>{{ invoice.order_number }}</td>
+            <td>{{ invoice.order_number|default:"" }}</td>
         </tr>
         <tr>
             <th>Dato</th>
@@ -23,7 +24,7 @@
             <td>{{ invoice.amount }}</td>
         </tr>
     </table>
-
+    <br/>
     <table>
         <tr>
             <th>Vare</th>
@@ -38,11 +39,11 @@
                 <td>{{ line.quantity }}</td>
                 <td>{{ line.sum }}</td>
             </tr>
-            {% if line.serials.all %}
+            {% if line.serials.count %}
                 <tr>
                     <td colspan="4">
                         {% for serial in line.serials.all %}
-                            {{ serial }}<br />
+                            {{ serial }}<br/>
                         {% endfor %}
                     </td>
                 </tr>
