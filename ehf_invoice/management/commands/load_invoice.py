@@ -20,7 +20,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('file', nargs='+', type=str)
 
-    def load(self, file):
+    def load(self, file: str) -> Invoice:
         invoice = InvoiceXML(file)
         supplier_xml = invoice.supplier
         supplier, created = Supplier.objects.get_or_create(
@@ -81,6 +81,7 @@ class Command(BaseCommand):
             for serial in line.serials:
                 serial_obj = SerialNumber(line=line_obj, serial=serial)
                 serial_obj.save()
+        return invoice_obj
 
     def handle(self, *args, **options):
         if os.path.isfile(options['file'][0]):
