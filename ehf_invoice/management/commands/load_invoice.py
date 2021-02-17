@@ -88,4 +88,5 @@ class Command(BaseCommand):
             return self.load(options['file'][0])
         elif os.path.isdir(options['file'][0]):
             for file in os.scandir(options['file'][0]):
-                self.load(file)
+                if os.path.isfile(file):
+                    self.load(file)
