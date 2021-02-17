@@ -13,5 +13,5 @@ def show_invoice(request, invoice_number):
 @permission_required('ehf_invoice.view_serialnumber', raise_exception=True)
 def find_serial(request, serial_number):
     serial = SerialNumber.objects.get(serial=serial_number)
-    invoice = serial.item.invoice
+    invoice = serial.line.invoice
     return render(request, 'ehf_invoice/invoice.html', {'invoice': invoice})
