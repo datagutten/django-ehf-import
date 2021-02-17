@@ -51,4 +51,13 @@
         {% endfor %}
     </table>
 
+    {% if invoice.attachments.count %}
+        <h2>Vedlegg</h2>
+        <ul>
+            {% for attachment in invoice.attachments.all %}
+                <li><a href="{{ attachment.file.url }}">{{ attachment.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
 {% endblock %}
