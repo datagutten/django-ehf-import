@@ -14,6 +14,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 @admin.register(InvoiceLine)
 class InvoiceLineAdmin(admin.ModelAdmin):
     list_display = ['invoice_number', 'line_id', 'name']
+    readonly_fields = ['invoice']
 
     def invoice_number(self, obj: InvoiceLine):
         return obj.invoice_number()
@@ -24,6 +25,7 @@ class InvoiceLineAdmin(admin.ModelAdmin):
 class SerialNumberAdmin(admin.ModelAdmin):
     list_display = ['line', 'serial']
     list_filter = ['line__invoice__supplier']
+    readonly_fields = ['line', 'serial']
 
 
 @admin.register(Attachment)
