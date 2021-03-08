@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>{{ invoice.supplier }} faktura {{ invoice.invoice_number }}</h1>
-    <table>
+    <table id="ehf_invoice">
         <tr>
             <th>Leverand&oslash;r</th>
             <td><a href="{% url 'ehf_invoice:supplier' supplier=invoice.supplier.id %}">{{ invoice.supplier.name }}</a></td>
@@ -25,7 +25,7 @@
         </tr>
     </table>
     <br/>
-    <table>
+    <table id="ehf_invoice_lines">
         <tr>
             <th>Vare</th>
             <th>Beløp</th>
