@@ -1,0 +1,33 @@
+{% load humanize %}
+<table>
+    <thead>
+    <tr>
+        {% if show_supplier %}
+            <th>Leverandør</th>
+        {% endif %}
+        {% if show_customer %}
+            <th>Kunde</th>
+        {% endif %}
+        <th>Fakturanummer</th>
+        <th>Dato</th>
+        <th>Bel&oslash;p</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for invoice in invoices %}
+        <tr>
+            {% if show_supplier %}
+                <td>
+                    <a href="{% url 'ehf_invoice:supplier' supplier=invoice.supplier.id %}">{{ invoice.supplier.name }}</a>
+                </td>
+            {% endif %}
+            {% if show_customer %}
+                <td>{{ invoice.customer.name }}</td>
+            {% endif %}
+            <td><a href="{% url 'ehf_invoice:invoice' %}?id={{ invoice.id }}">{{ invoice.invoice_number }}</a></td>
+            <td>{{ invoice.date }}</td>
+            <td>{{ invoice.amount|intcomma }}kr</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
