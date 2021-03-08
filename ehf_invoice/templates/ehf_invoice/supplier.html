@@ -1,0 +1,27 @@
+{% extends 'ehf_invoice/base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <h1>{{ supplier }}</h1>
+    <h2>Fakturaer</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Kunde</th>
+            <th>Fakturanummer</th>
+            <th>Beløp</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for invoice in supplier.invoices.all %}
+            <tr>
+                <td>{{ invoice.customer.name }}</td>
+                <td>
+                    <a href="{% url 'ehf_invoice:invoice' %}?id={{ invoice.id }}">{{ invoice.invoice_number }}</a>
+                </td>
+                <td>{{ invoice.amount|intcomma }}kr</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

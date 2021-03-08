@@ -5,7 +5,7 @@
     <table>
         <tr>
             <th>Leverand&oslash;r</th>
-            <td>{{ invoice.supplier }}</td>
+            <td><a href="{% url 'ehf_invoice:supplier' supplier=invoice.supplier.id %}">{{ invoice.supplier.name }}</a></td>
         </tr>
         <tr>
             <th>Fakturanummer</th>
