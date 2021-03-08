@@ -5,13 +5,16 @@ from ehf_invoice.models import Supplier, Customer
 
 class Invoice(models.Model):
     supplier = models.ForeignKey(
-        Supplier, on_delete=models.PROTECT, verbose_name='leverandør'
+        Supplier, on_delete=models.PROTECT, verbose_name='leverandør',
+        related_name='invoices'
     )
     customer = models.ForeignKey(
-        Customer, on_delete=models.PROTECT, verbose_name='kunde'
+        Customer, on_delete=models.PROTECT, verbose_name='kunde',
+        related_name='invoices'
     )
     invoice_number = models.CharField('fakturanummer', max_length=100)
-    order_number = models.CharField('ordrenummer', max_length=100, blank=True, null=True)
+    order_number = models.CharField('ordrenummer', max_length=100, blank=True,
+                                    null=True)
     date = models.DateField('fakturadato')
     amount = models.DecimalField('beløp', decimal_places=2, max_digits=12)
 
