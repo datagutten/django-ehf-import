@@ -1,4 +1,5 @@
 {% extends 'ehf_invoice/base.html' %}
+{% load humanize %}
 
 {% block content %}
     <h1>{{ invoice.supplier }} faktura {{ invoice.invoice_number }}</h1>
@@ -21,7 +22,7 @@
         </tr>
         <tr>
             <th>Bel&oslash;p</th>
-            <td>{{ invoice.amount }}</td>
+            <td>{{ invoice.amount|intcomma }}kr</td>
         </tr>
     </table>
     <br/>
@@ -35,9 +36,9 @@
         {% for line in invoice.lines.all %}
             <tr>
                 <td>{{ line.name }}</td>
-                <td>{{ line.price }}</td>
+                <td>{{ line.price|intcomma }}kr</td>
                 <td>{{ line.quantity }}</td>
-                <td>{{ line.sum }}</td>
+                <td>{{ line.sum|intcomma }}kr</td>
             </tr>
             {% if line.serials.count %}
                 <tr>
