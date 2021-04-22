@@ -16,10 +16,12 @@
             <th>Fakturanummer</th>
             <td>{{ invoice.invoice_number }}</td>
         </tr>
-        <tr>
-            <th>Ordrenummer</th>
-            <td>{{ invoice.order_number|default:"" }}</td>
-        </tr>
+        {% if invoice.order_number %}
+            <tr>
+                <th>Ordrenummer</th>
+                <td>{{ invoice.order_number|default:"" }}</td>
+            </tr>
+        {% endif %}
         <tr>
             <th>Dato</th>
             <td>{{ invoice.date }}</td>
