@@ -25,7 +25,7 @@ class ParserTestCase(unittest.TestCase):
         self.assertEqual(-1436.5, invoice.amount)
         self.assertEqual(5, len(invoice.invoice_lines()))
         line = invoice.invoice_lines()[0]
-        self.assertEqual(line.quantity, 1)
+        self.assertEqual(line.quantity, -1)
 
 
 if __name__ == '__main__':
