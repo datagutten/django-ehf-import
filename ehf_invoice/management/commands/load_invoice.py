@@ -78,6 +78,13 @@ class Command(BaseCommand):
                     'sum': line.sum,
                 },
             )
+            if line_obj.sum != line.sum:
+                line_obj.quantity = line.quantity
+                line_obj.description = line.description
+                line_obj.name = line.name
+                line_obj.price = line.price
+                line_obj.sum = line.sum
+                line_obj.save()
 
             for serial in line.serials:
                 serial_obj = SerialNumber(line=line_obj, serial=serial)
