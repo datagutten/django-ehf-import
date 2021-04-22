@@ -1,10 +1,7 @@
-from base64 import b64decode
 from decimal import Decimal
 from xml.etree import ElementTree
 
-from ehf_invoice.parser import Attachment
-from ehf_invoice.parser.InvoiceLine import InvoiceLine
-from ehf_invoice.parser.Party import Party
+from ehf_invoice.parser import Attachment, CreditNoteLine, InvoiceLine, Party
 
 
 class InvoiceXML:
@@ -18,9 +15,13 @@ class InvoiceXML:
     invoice = None
 
     def __init__(self, file):
-        # import xml.etree.ElementTree
         f = open(file, 'r')
         self.invoice = ElementTree.fromstring(f.read())
+        if self.invoice.tag == '{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote':
+            self.credit = True
+        else:
+            self.credit = False
+
         f.close()
 
     def find(self, match):
@@ -77,7 +78,8 @@ class InvoiceXML:
         # return references
 
     def attachments(self):
-        objects = self.invoice.findall('cac:AdditionalDocumentReference/cac:Attachment', self.namespaces)
+        objects = self.invoice.findall(
+            'cac:AdditionalDocumentReference/cac:Attachment', self.namespaces)
         attachments = []
         for att in objects:
             try:
@@ -88,13 +90,25 @@ class InvoiceXML:
 
     @property
     def amount(self):
-        return Decimal(
+        value = Decimal(
             self.find('cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount').text
         )
+        if self.credit:
+            return -value
+        else:
+            return value
 
     def invoice_lines(self):
-        lines_xml = self.invoice.findall('cac:InvoiceLine', self.namespaces)
+        if self.credit:
+            lines_xml = self.invoice.findall('cac:CreditNoteLine',
+                                             self.namespaces)
+        else:
+            lines_xml = self.invoice.findall('cac:InvoiceLine',
+                                             self.namespaces)
         lines = []
         for line in lines_xml:
-            lines.append(InvoiceLine(line))
+            if self.credit:
+                lines.append(CreditNoteLine(line))
+            else:
+                lines.append(InvoiceLine(line))
         return lines
