@@ -2,7 +2,11 @@
 {% load humanize %}
 
 {% block content %}
-    <h1>{{ invoice.supplier }} faktura {{ invoice.invoice_number }}</h1>
+    {% if invoice.credit %}
+        <h1>{{ invoice.supplier }} kreditnota {{ invoice.invoice_number }}</h1>
+    {% else %}
+        <h1>{{ invoice.supplier }} faktura {{ invoice.invoice_number }}</h1>
+    {% endif %}
     <table id="ehf_invoice">
         <tr>
             <th>Leverand&oslash;r</th>

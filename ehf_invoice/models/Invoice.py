@@ -17,6 +17,7 @@ class Invoice(models.Model):
                                     null=True)
     date = models.DateField('fakturadato')
     amount = models.DecimalField('beløp', decimal_places=2, max_digits=12)
+    credit = models.BooleanField('kreditnota', default=False)
 
     class Meta:
         unique_together = ['supplier', 'invoice_number']

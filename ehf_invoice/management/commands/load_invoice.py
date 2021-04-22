@@ -44,6 +44,7 @@ class Command(BaseCommand):
         invoice_obj.order_number = invoice.order_number
         invoice_obj.date = invoice.invoice_date
         invoice_obj.amount = invoice.amount
+        invoice_obj.credit = invoice.credit
 
         invoice_obj.save()
         print(invoice_obj)
