@@ -16,6 +16,13 @@ class ParserTestCase(unittest.TestCase):
         self.assertEqual('TOSL108', invoice.invoice_number)
         self.assertEqual('Contract321', invoice.order_number)
 
+    def test_credit(self):
+        invoice = InvoiceXML(
+            os.path.join(os.path.dirname(__file__), 'test_data',
+                         'Kreditnota.xml'))
+        self.assertEqual(-1436.5, invoice.amount)
+        self.assertEqual(5, len(invoice.invoice_lines()))
+
 
 if __name__ == '__main__':
     unittest.main()
