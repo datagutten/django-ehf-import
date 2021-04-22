@@ -10,8 +10,15 @@
     <table id="ehf_invoice">
         <tr>
             <th>Leverand&oslash;r</th>
-            <td><a href="{% url 'ehf_invoice:supplier' supplier=invoice.supplier.id %}">{{ invoice.supplier.name }}</a></td>
+            <td><a href="{% url 'ehf_invoice:supplier' supplier=invoice.supplier.id %}">{{ invoice.supplier.name }}</a>
+            </td>
         </tr>
+        {% if show_customer %}
+            <tr>
+                <th>Kunde</th>
+                <td>{{ invoice.customer.name }}</td>
+            </tr>
+        {% endif %}
         <tr>
             <th>Fakturanummer</th>
             <td>{{ invoice.invoice_number }}</td>
