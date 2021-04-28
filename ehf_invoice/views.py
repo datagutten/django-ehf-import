@@ -5,6 +5,14 @@ from ehf_invoice.models import Invoice, SerialNumber, Supplier
 
 
 @permission_required('ehf_invoice.view_supplier', raise_exception=True)
+def suppliers(request):
+    suppliers_obj = Supplier.objects.order_by('name').all()
+    return render(request, 'ehf_invoice/suppliers.html',
+                  {'suppliers': suppliers_obj,
+                   'title': 'Leverandører'})
+
+
+@permission_required('ehf_invoice.view_supplier', raise_exception=True)
 def show_supplier(request, supplier):
     supplier = Supplier.objects.get(id=supplier)
     return render(request, 'ehf_invoice/supplier.html', {'supplier': supplier})

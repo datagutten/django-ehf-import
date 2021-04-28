@@ -1,0 +1,18 @@
+{% extends 'ehf_invoice/base.html' %}
+{% block content %}
+    <table>
+        <tr>
+            <th>Navn</th>
+            <th>Organisasjonsnummer</th>
+        </tr>
+        {% for supplier in suppliers %}
+            <tr>
+                <td>
+                    <a href="{% url 'ehf_invoice:supplier' supplier=supplier.id %}">{{ supplier.name }}</a>
+                </td>
+                <td><a href="https://w2.brreg.no/enhet/sok/detalj.jsp?orgnr={{ supplier.id }}">{{ supplier.id }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
