@@ -67,6 +67,12 @@ class Command(BaseCommand):
                 attachment_obj.save()
 
         for line in invoice.invoice_lines():
+            try:
+                int(line.id)
+            except ValueError:
+                print('Invalid id: %s' % line.id)
+                continue
+
             line_obj, created = InvoiceLine.objects.get_or_create(
                 invoice=invoice_obj,
                 line_id=line.id,
