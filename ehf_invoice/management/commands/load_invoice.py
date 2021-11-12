@@ -35,10 +35,12 @@ class Command(BaseCommand):
             invoice_obj = Invoice.objects.get(
                 supplier=supplier, invoice_number=invoice.invoice_number
             )
+            new = False
         except Invoice.DoesNotExist:
             invoice_obj = Invoice(
                 supplier=supplier, invoice_number=invoice.invoice_number
             )
+            new = True
 
         invoice_obj.customer = customer
         invoice_obj.order_number = invoice.order_number
@@ -47,7 +49,8 @@ class Command(BaseCommand):
         invoice_obj.credit = invoice.credit
 
         invoice_obj.save()
-        print(invoice_obj)
+        if new:
+            print(invoice_obj)
 
         for attachment in invoice.attachments():
             try:
@@ -70,7 +73,8 @@ class Command(BaseCommand):
             try:
                 int(line.id)
             except ValueError:
-                print('Invalid id: %s' % line.id)
+                if new:
+                    print('Invalid id: %s' % line.id)
                 continue
 
             line_obj, created = InvoiceLine.objects.get_or_create(
