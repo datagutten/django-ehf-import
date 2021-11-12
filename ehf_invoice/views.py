@@ -4,6 +4,10 @@ from django.shortcuts import render
 from ehf_invoice.models import Invoice, SerialNumber, Supplier
 
 
+def index(request):
+    return render(request, 'ehf_invoice/index.html')
+
+
 @permission_required('ehf_invoice.view_supplier', raise_exception=True)
 def suppliers(request):
     suppliers_obj = Supplier.objects.order_by('name').all()
