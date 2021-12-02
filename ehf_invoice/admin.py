@@ -42,4 +42,3 @@ class CustomerAdmin(admin.ModelAdmin):
 @admin.register(Supplier)
 class SupplierAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
-    readonly_fields = list_display
