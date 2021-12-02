@@ -11,7 +11,7 @@ class Attachment(models.Model):
     )
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to='invoice_attachments/%Y/')
-    mime = models.CharField('MIME type', max_length=50)
+    mime = models.CharField('MIME type', max_length=100)
 
     class Meta:
         unique_together = ['invoice', 'name']
