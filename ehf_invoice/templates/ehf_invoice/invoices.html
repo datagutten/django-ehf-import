@@ -25,7 +25,7 @@
                 <td>{{ invoice.customer.name }}</td>
             {% endif %}
             <td><a href="{% url 'ehf_invoice:invoice' %}?id={{ invoice.id }}">{{ invoice.invoice_number }}</a></td>
-            <td>{{ invoice.date }}</td>
+            <td data-sort="{{ invoice.date.isoformat }}">{{ invoice.date }}</td>
             <td>{{ invoice.amount|intcomma }}kr</td>
         </tr>
     {% endfor %}
