@@ -6,11 +6,13 @@
             <td><a href="{% url 'ehf_invoice:suppliers' %}">Leverandører</a></td>
         </tr>
         <tr>
-            <th>Slå opp serienummer</th>
+            <th><label for="serial">Slå opp serienummer</label></th>
             <td>
-                <form method="get" action="{% url 'ehf_invoice:find_serial_number_get' %}"><input type="text"
-                                                                                                  name="serial"><input
-                        type="submit"></form>
+                <form method="get" action="{% url 'ehf_invoice:find_serial_number_get' %}">
+                    <input type="text" id="serial" name="serial">&nbsp;
+                    <input type="submit" value="Vis">
+                </form>
+                <span class="error">{{ error_serial_number }}</span>
             </td>
         </tr>
     </table>

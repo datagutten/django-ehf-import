@@ -35,10 +35,16 @@ def show_invoice(request, invoice_number=None):
 
 
 @permission_required('ehf_invoice.view_serialnumber', raise_exception=True)
-def find_serial(request, serial_number=None):
+def find_serial(request, serial_number: str = None):
     if not serial_number:
         serial_number = request.GET.get('serial')
 
-    serial = SerialNumber.objects.get(serial=serial_number)
-    invoice = serial.line.invoice
-    return render(request, 'ehf_invoice/invoice.html', {'invoice': invoice})
+    serial_number = serial_number.strip()
+    try:
+        serial = SerialNumber.objects.get(serial=serial_number)
+        invoice = serial.line.invoice
+        return render(request, 'ehf_invoice/invoice.html', {'invoice': invoice})
+    except SerialNumber.DoesNotExist:
+        return render(request, 'ehf_invoice/index.html',
+                      {'title': 'Leverandørfakturaer',
+                       'error_serial_number': 'Ukjent serienummer: %s' % serial_number})
