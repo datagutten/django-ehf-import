@@ -5,7 +5,7 @@ from ehf_invoice.models import Invoice, SerialNumber, Supplier
 
 
 def index(request):
-    return render(request, 'ehf_invoice/index.html')
+    return render(request, 'ehf_invoice/index.html', {'title': 'Leverandørfakturaer'})
 
 
 @permission_required('ehf_invoice.view_supplier', raise_exception=True)
