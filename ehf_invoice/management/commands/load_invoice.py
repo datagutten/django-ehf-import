@@ -54,20 +54,29 @@ class Command(BaseCommand):
 
         for attachment in invoice.attachments():
             try:
-                Attachment.objects.get(
+                attachment_obj = Attachment.objects.get(
                     invoice=invoice_obj, name=attachment.file_name
                 )
+                if not os.path.exists(attachment_obj.file.path):
+                    file = ContentFile(attachment.data)
+                    print('Missing file', attachment_obj.file.path)
+                    # TODO: Add missing files
                 continue
             except Attachment.DoesNotExist:
                 file = ContentFile(attachment.data)
                 file.name = attachment.file_name
-                attachment_obj = Attachment(
-                    invoice=invoice_obj,
-                    mime=attachment.mime,
-                    file=file,
-                    name=attachment.file_name,
-                )
-                attachment_obj.save()
+                try:
+                    attachment_obj = Attachment(
+                        invoice=invoice_obj,
+                        mime=attachment.mime,
+                        file=file,
+                        name=attachment.file_name,
+                    )
+                    attachment_obj.save()
+                except DataError as e:
+                    print('Attachment error invoice %s, mime %s: %s' % (invoice_obj, attachment.mime, e))
+            except DataError as e:
+                print('Attachment error invoice %s: %s' % (invoice_obj, e))
 
         for line in invoice.invoice_lines():
             try:
