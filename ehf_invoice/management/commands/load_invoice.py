@@ -1,7 +1,9 @@
 import os
+from typing import Optional
 
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
+from django.db.utils import DataError
 
 from ehf_invoice.models import (
     Invoice,
@@ -20,12 +22,15 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('file', nargs='+', type=str)
 
-    def load(self, file: str) -> Invoice:
+    def load(self, file: str) -> Optional[Invoice]:
         invoice = InvoiceXML(file)
         supplier_xml = invoice.supplier
-        supplier, created = Supplier.objects.get_or_create(
-            id=supplier_xml.id, defaults={'name': supplier_xml.name}
-        )
+        try:
+            supplier, created = Supplier.objects.get_or_create(
+                id=supplier_xml.id, defaults={'name': supplier_xml.name}
+            )
+        except DataError:
+            return None
 
         customer, created = Customer.objects.get_or_create(
             id=invoice.customer.id, defaults={'name': invoice.customer.name}
