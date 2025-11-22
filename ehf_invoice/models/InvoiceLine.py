@@ -10,9 +10,9 @@ class InvoiceLine(models.Model):
     )
     line_id = models.IntegerField('linje')
 
-    description = models.CharField('beskrivelse', max_length=300, null=True,
+    description = models.TextField('beskrivelse', null=True,
                                    blank=True)
-    name = models.CharField('navn', max_length=300)
+    name = models.TextField('navn')
     price = models.DecimalField('beløp', decimal_places=2, max_digits=12)
     quantity = models.IntegerField('antall')
     sum = models.DecimalField('sum', decimal_places=2, max_digits=12)

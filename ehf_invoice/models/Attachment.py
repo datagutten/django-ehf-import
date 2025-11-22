@@ -10,7 +10,7 @@ class Attachment(models.Model):
         Invoice, on_delete=models.CASCADE, related_name='attachments'
     )
     name = models.CharField(max_length=255)
-    file = models.FileField(upload_to='invoice_attachments/%Y/')
+    file = models.FileField(upload_to='invoice_attachments/%Y/', max_length=255)
     mime = models.CharField('MIME type', max_length=100)
 
     class Meta:
