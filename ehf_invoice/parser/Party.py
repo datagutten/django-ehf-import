@@ -8,4 +8,9 @@ class Party:
 
     def __init__(self, element):
         self.id = element.find('cbc:EndpointID', self.namespaces).text
-        self.name = element.find('cac:PartyName/cbc:Name', self.namespaces).text
+        if element.find('cac:PartyName/cbc:Name', self.namespaces) is not None:
+            self.name = element.find('cac:PartyName/cbc:Name', self.namespaces).text
+        elif element.find('cac:PartyLegalEntity/cbc:RegistrationName', self.namespaces) is not None:
+            self.name = element.find('cac:PartyLegalEntity/cbc:RegistrationName', self.namespaces).text
+        else:
+            self.name = None
