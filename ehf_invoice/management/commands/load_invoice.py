@@ -1,5 +1,6 @@
 import os
 from typing import Optional
+from xml.etree.ElementTree import ParseError
 
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
@@ -23,7 +24,12 @@ class Command(BaseCommand):
         parser.add_argument('file', nargs='+', type=str)
 
     def load(self, file: str) -> Optional[Invoice]:
-        invoice = InvoiceXML(file)
+        try:
+            invoice = InvoiceXML(file)
+        except ParseError as e:
+            print('Error parsing file %s: %s' % (file, e))
+            return None
+
         supplier_xml = invoice.supplier
         try:
             supplier, created = Supplier.objects.get_or_create(
