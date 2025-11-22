@@ -18,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v6
         with:
           python-version: '3.x'
 
@@ -33,7 +33,7 @@ jobs:
       - name: Write version
         run: |
           echo "${GITHUB_REF#refs/*/}">VERSION
-          sed -i "s/@@version@@/${GITHUB_REF#refs/*/}/g" setup.py
+          sed -i "s/@@version@@/${GITHUB_REF#refs/*/}/g" pyproject.toml
 
       - name: Build package
         run: python -m build
