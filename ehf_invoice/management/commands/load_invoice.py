@@ -74,8 +74,11 @@ class Command(BaseCommand):
                     # TODO: Add missing files
                 continue
             except Attachment.DoesNotExist:
-                file = ContentFile(attachment.data)
-                file.name = attachment.file_name
+                if len(attachment.file_name) <= 255:
+                    file_name = attachment.file_name
+                else:
+                    file_name = str(invoice_obj)
+                file = ContentFile(attachment.data, file_name)
                 try:
                     attachment_obj = Attachment(
                         invoice=invoice_obj,
